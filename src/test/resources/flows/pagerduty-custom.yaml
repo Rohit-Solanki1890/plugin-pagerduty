@@ -1,0 +1,30 @@
+id: pagerduty-custom
+namespace: io.kestra.tests
+
+inputs:
+  - id: url
+    type: STRING
+    defaults: "http://localhost:59443"
+
+tasks:
+  - id: pagerduty
+    type: io.kestra.plugin.pagerduty.PagerDutyExecution
+    url: "{{ inputs.url }}/webhook-unit-test"
+    payloadSummary: "Kestra PagerDuty alert"
+    executionId: "{{trigger.executionId}}"
+    customMessage: "this is my custom message"
+    customFields:
+      environment: "test"
+      team: "platform"
+      retries: 4
+      urgent: false
+
+triggers:
+  - id: on_failure
+    type: io.kestra.plugin.core.trigger.Flow
+    preconditions:
+      id: flow_trigger
+      flows:
+        - namespace: io.kestra.tests
+          flowId: main-flow-that-fails-custom
+          states: [ FAILED ]

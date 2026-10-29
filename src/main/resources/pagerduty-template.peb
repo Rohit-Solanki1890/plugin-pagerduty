@@ -24,7 +24,22 @@
               {
                   "title": "Final task ID",
                   "value": {{lastTask.taskId | toJson }}
-              }]
+              }
+              {% if customMessage is defined and customMessage is not empty %}
+              , {
+                  "title" : "Message",
+                  "value" : {{customMessage | toJson }}
+                 }
+              {% endif %}
+              {% if customFields is defined and customFields is not empty %}
+                  {% for entry in customFields %}
+                       ,{
+                       "title" : {{ entry.key | toJson }},
+                       "value" : {{ (entry.value ~ "") | toJson }}
+                       }
+                  {% endfor %}
+              {% endif %}
+              ]
         }
         ,
         "links": [
