@@ -35,7 +35,7 @@
                   {% for entry in customFields %}
                        ,{
                        "title" : {{ entry.key | toJson }},
-                       "value" : {{ (entry.value ~ "") | toJson }}
+                       "value" : {{ entry.value | toJson }}
                        }
                   {% endfor %}
               {% endif %}
